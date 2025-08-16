@@ -1,0 +1,103 @@
+/* projects/project-page-style.css (最终稳定版) */
+
+body {
+    background-color: var(--light-bg);
+}
+
+.project-page-container {
+    max-width: 900px;
+    margin: 2rem auto;
+    padding: 2rem;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+}
+
+.back-link {
+    display: inline-block;
+    margin-bottom: 2rem;
+    color: var(--primary-color);
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 1.1rem;
+    transition: color 0.3s;
+}
+.back-link:hover {
+    color: var(--secondary-color);
+}
+
+.project-header {
+    text-align: center;
+    padding: 2rem 0; /* 调整上下内边距 */
+    margin-bottom: 2.5rem;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.project-header h1 {
+    font-size: 2.8rem;
+    color: var(--primary-color);
+    margin-bottom: 1.5rem;
+}
+
+.project-header .tech-stack {
+    justify-content: center;
+    margin-bottom: 1.5rem; /* 为下方的简介留出空间 */
+}
+
+
+/* ***** 核心修改：简介模块的新样式 ***** */
+.project-intro-summary {
+    /* 1. 移除所有粘性定位和特殊背景 */
+    max-width: 700px; /* 限制最大宽度，使其不会太长 */
+    margin: 0 auto; /* 水平居中 */
+    padding: 0;
+    border: none;
+    background-color: transparent;
+    text-align: center;
+}
+
+.project-intro-summary p {
+    /* 2. 使用更柔和的颜色和字体大小，作为补充说明 */
+    font-size: 1rem;
+    color: #666; /* 使用灰色文字 */
+    line-height: 1.7;
+    margin: 0;
+}
+
+
+.project-section {
+    margin-bottom: 3rem;
+}
+.project-section h2 {
+    font-size: 1.8rem;
+    color: var(--primary-color);
+    border-bottom: 2px solid var(--secondary-color);
+    padding-bottom: 0.5rem;
+    margin-bottom: 1.5rem;
+    text-align: left;
+}
+
+
+/* --- 其他所有组件样式保持不变 --- */
+/* (视频, 下载, 对比, 策略, 表格等样式) */
+.project-video-container { position: relative; width: 100%; padding-top: 56.25%; background-color: #000; border-radius: 8px; overflow: hidden; }
+.project-video-container video { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
+.project-download-section { background-color: #f9f9f9; padding: 2rem; border-radius: 8px; border: 1px solid #eee; }
+.download-button { display: inline-block; padding: 1rem 2rem; background-color: var(--secondary-color); color: white; text-decoration: none; font-size: 1.2rem; font-weight: bold; border-radius: 8px; transition: all 0.3s ease; margin-bottom: 1.5rem; }
+.download-button:hover { background-color: var(--primary-color); transform: translateY(-3px); box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+.instructions-list { padding-left: 20px; }
+.instructions-list li { margin-bottom: 0.75rem; line-height: 1.6; }
+.image-comparison { display: flex; gap: 2rem; }
+.image-container { flex: 1; text-align: center; }
+.image-container img { max-width: 100%; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+.image-container h3 { margin-bottom: 1rem; color: var(--text-color); }
+.key-strategies { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; }
+.strategy-card { background: #f9f9f9; padding: 1.5rem; border-radius: 8px; border-left: 4px solid var(--secondary-color); }
+.strategy-card h4 { margin-bottom: 0.5rem; color: var(--primary-color); }
+.performance-table { border: 1px solid #ddd; border-radius: 8px; overflow: hidden; }
+.table-row { display: grid; grid-template-columns: 1fr 2fr; gap: 1rem; padding: 1rem; }
+.table-row:not(:last-child) { border-bottom: 1px solid #ddd; }
+.table-row.header { background-color: var(--primary-color); color: white; font-weight: bold; }
+.table-row:nth-child(even) { background-color: #f9f9f9; }
+.highlight { color: #27ae60; font-weight: bold; }
+@media (max-width: 600px) { .image-comparison { flex-direction: column; } }

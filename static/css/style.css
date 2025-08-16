@@ -1,0 +1,244 @@
+/* 全局样式 */
+:root {
+    --primary-color: #2c3e50; /* 深蓝灰色 */
+    --secondary-color: #3498db; /* 亮蓝色 */
+    --light-bg: #f5f5f5;
+    --text-color: #333;
+    --card-bg: #ffffff;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth; /* 平滑滚动效果 */
+}
+
+body {
+    font-family: 'Helvetica Neue', Arial, 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+    line-height: 1.7;
+    color: var(--text-color);
+    background-color: var(--light-bg);
+    overflow-x: hidden; /* 防止放大动画导致水平滚动条出现 */
+}
+
+/* --- 头部和导航 (无变化) --- */
+header {
+    background-color: var(--primary-color);
+    color: white;
+    padding: 1rem;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    text-align: center;
+}
+header h1 { margin-bottom: 0.5rem; }
+nav ul { display: flex; list-style: none; justify-content: center; gap: 2rem; }
+nav a { color: white; text-decoration: none; font-weight: bold; padding: 0.5rem 0; position: relative; transition: color 0.3s; }
+nav a::after { content: ''; position: absolute; width: 100%; height: 2px; bottom: 0; left: 0; background-color: var(--secondary-color); transform: scaleX(0); transform-origin: bottom right; transition: transform 0.3s ease-out; }
+nav a:hover { color: var(--secondary-color); }
+nav a:hover::after { transform: scaleX(1); transform-origin: bottom left; }
+
+/* --- 主要内容和标题 (无变化) --- */
+main { padding: 2rem 1rem; max-width: 1200px; margin: 0 auto; }
+section { margin-bottom: 4rem; }
+h2 { text-align: center; font-size: 2.5rem; margin-bottom: 2rem; color: var(--primary-color); }
+h3 { font-size: 1.8rem; margin-bottom: 1.5rem; color: var(--primary-color); }
+
+/* --- 项目卡片 (无变化, 布局已满足三列并排) --- */
+.projects-container { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 2rem; }
+.project-card { background: var(--card-bg); border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.08); overflow: hidden; display: flex; flex-direction: column; transition: transform 0.3s ease, box-shadow 0.3s ease; }
+.project-card:hover { transform: translateY(-10px); box-shadow: 0 8px 25px rgba(0,0,0,0.12); }
+.project-thumbnail {
+  width: 100%;
+  height: 200px;
+  object-fit: contain; /* 图片缩放显示完整，可能出现上下或左右留白 */
+  background-color: #f0f0f0; /* 可以设置背景色，增强视觉效果 */
+}
+.project-content { padding: 1.5rem; flex-grow: 1; display: flex; flex-direction: column; }
+.project-content h3 { font-size: 1.5rem; margin-top: 0; }
+.tech-stack { margin: 1rem 0; display: flex; flex-wrap: wrap; gap: 0.5rem; }
+.tech-tag { background-color: var(--secondary-color); color: white; padding: 0.3rem 0.8rem; border-radius: 20px; font-size: 0.8rem; }
+.project-link { display: inline-block; margin-top: auto; padding: 0.7rem 1.5rem; background-color: var(--primary-color); color: white; text-decoration: none; font-weight: bold; border-radius: 8px; text-align: center; transition: background-color 0.3s, transform 0.3s; }
+.project-link:hover { background-color: var(--secondary-color); transform: scale(1.05); }
+
+/* --- 关于我 - 兴趣部分 (核心修改) --- */
+.interests-section h3 {
+    text-align: center;
+}
+
+.interest-categories {
+    display: grid;
+    /* 在大屏幕上强制4列，如果空间不足则自动换行 */
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2rem;
+    margin-top: 2rem;
+}
+
+.interest-card {
+    background: var(--card-bg);
+    border-radius: 12px;
+    padding: 1.5rem;
+    text-align: center;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+    position: relative; /* 关键：为z-index生效提供上下文 */
+    /* 关键：更平滑的动画曲线和更长的过渡时间 */
+    transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1), box-shadow 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.interest-card img {
+    width: 100%;
+    height: 160px;
+    object-fit: cover;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+}
+
+.interest-card h4 {
+    font-size: 1.25rem;
+    color: var(--primary-color);
+    margin-bottom: 0.5rem;
+}
+
+/* 关键：为第1和第2个卡片（运动、读书）设置向右放大效果 */
+.interest-card:nth-child(1):hover,
+.interest-card:nth-child(2):hover {
+    transform: scale(1.5);
+    transform-origin: left center; /* 从左侧中心放大 */
+    z-index: 10; /* 置于顶层 */
+    box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+}
+
+/* 关键：为第3和第4个卡片（电影、游戏）设置向左放大效果 */
+.interest-card:nth-child(3):hover,
+.interest-card:nth-child(4):hover {
+    transform: scale(1.5);
+    transform-origin: right center; /* 从右侧中心放大 */
+    z-index: 10; /* 置于顶层 */
+    box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+}
+
+
+/* --- 关于我 - 简历部分 (无变化) --- */
+/* (这部分CSS无需修改，已经很完美了) */
+.resume-section { text-align: center; margin-top: 4rem; }
+.resume-thumbnail { position: relative; width: 200px; height: 282px; margin: 1rem auto; cursor: pointer; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.1); transition: transform 0.3s, box-shadow 0.3s; }
+.resume-thumbnail:hover { transform: scale(1.05); box-shadow: 0 8px 25px rgba(0,0,0,0.15); }
+.resume-thumbnail img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.3s; }
+.resume-thumbnail:hover img { transform: scale(1.1); }
+.resume-overlay { position: absolute; bottom: 0; left: 0; right: 0; background: rgba(44, 62, 80, 0.8); color: white; padding: 1rem; font-weight: bold; opacity: 0; transition: opacity 0.3s; }
+.resume-thumbnail:hover .resume-overlay { opacity: 1; }
+.resume-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.8); z-index: 1000; padding: 20px; overflow-y: auto; }
+.pdf-viewer { width: 100%; max-width: 900px; height: 95vh; display: block; margin: 2.5vh auto; border: none; }
+.close-btn { position: fixed; top: 25px; left: 25px; padding: 10px 20px; background: var(--primary-color); color: white; border: none; cursor: pointer; z-index: 1001; font-size: 1rem; font-weight: bold; border-radius: 8px; transition: background-color 0.3s, transform 0.3s; }
+.close-btn:hover { background-color: var(--secondary-color); transform: scale(1.1); }
+
+/* --- 联系方式和页脚 (无变化) --- */
+#contact { text-align: center; background-color: var(--card-bg); padding: 3rem 1rem; border-radius: 12px; }
+#contact a { color: var(--secondary-color); text-decoration: none; font-weight: bold; }
+#contact a:hover { text-decoration: underline; }
+footer { text-align: center; padding: 2rem; background-color: var(--primary-color); color: rgba(255, 255, 255, 0.8); margin-top: 2rem; }
+
+/* --- 响应式设计 (核心修改) --- */
+
+/* 中等屏幕 - 平板电脑 */
+@media (max-width: 992px) {
+    /* 在平板上，4列会太挤，改为2列 */
+    .interest-categories {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    /* 关键：在中等屏幕上，禁用夸张的放大动画，并重置其方向 */
+    .interest-card:hover,
+    .interest-card:nth-child(1):hover,
+    .interest-card:nth-child(2):hover,
+    .interest-card:nth-child(3):hover,
+    .interest-card:nth-child(4):hover {
+        transform: translateY(-10px) scale(1.05); /* 改为更温和的向上浮动效果 */
+        transform-origin: center center; /* 重置放大中心点 */
+        z-index: auto; /* 重置层级 */
+    }
+}
+
+/* 小型屏幕 - 手机 */
+@media (max-width: 768px) {
+    h2 { font-size: 2rem; }
+    nav ul { flex-direction: column; gap: 1rem; }
+    
+    /* 在手机上，项目和兴趣都改为单列显示 */
+    .projects-container {
+        grid-template-columns: 1fr;
+    }
+    .interest-categories {
+        grid-template-columns: 1fr;
+    }
+    
+    .close-btn { top: 15px; left: 15px; }
+}
+/* --- 实习经历模块样式 --- */
+.internship-section {
+    text-align: center;
+    margin-bottom: 4rem;
+}
+
+.internship-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    gap: 2rem;
+    margin-top: 2rem;
+}
+
+.internship-card {
+    background: var(--card-bg);
+    border-radius: 12px;
+    padding: 1.5rem;
+    text-align: left;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer;
+    position: relative;
+}
+
+.internship-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.12);
+}
+
+.internship-card h4 {
+    font-size: 1.3rem;
+    color: var(--primary-color);
+    margin-bottom: 0.5rem;
+}
+
+.internship-summary {
+    font-size: 0.95rem;
+    color: #666;
+    margin-bottom: 1rem;
+}
+
+.internship-detail {
+    display: none;
+    font-size: 0.9rem;
+    color: var(--text-color);
+    line-height: 1.6;
+}
+
+/* 点击展开时 */
+.internship-card.expanded .internship-summary {
+    display: none;
+}
+
+.internship-card.expanded .internship-detail {
+    display: block;
+}
+
+/* 响应式调整 */
+@media (max-width: 768px) {
+    .internship-cards {
+        grid-template-columns: 1fr;
+    }
+}

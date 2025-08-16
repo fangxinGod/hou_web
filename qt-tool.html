@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>项目详情 - 图像分类标注工具</title>
+    <link rel="icon" href="favicon.ico">
+    <link rel="stylesheet" href="static/css/style.css"> 
+    <link rel="stylesheet" href="static/css/project-page-style.css"> 
+</head>
+<body>
+    <main class="project-page-container">
+        
+        <a href="index.html" class="back-link">← 返回项目列表</a>
+        
+        <!-- ***** 核心修改：将 <header> 标签改为 <div> ***** -->
+        <div class="project-header">
+            <h1>图像分类标注工具 (下水道缺陷)</h1>
+            <div class="tech-stack">
+                <span class="tech-tag">C++</span>
+                <span class="tech-tag">Qt框架</span>
+                <span class="tech-tag">MSVC (Microsoft Visual C++)</span>
+                <span class="tech-tag">CMake</span>
+                <span class="tech-tag">开发环境：Qt Creator</span>
+            </div>
+            
+            <div class="project-intro-summary">
+                <p>这是一款为提升图像分类标注效率而自主开发的跨平台桌面应用，专为解决下水道缺陷数据集的制作难题而设计。</p>
+            </div>
+        </div>
+        <!-- ***** 核心修改结束 ***** -->
+
+        <section class="project-section">
+            <h2>工具演示</h2>
+            <div class="project-video-container">
+                <video controls autoplay muted loop>
+                    <source src="static/videos/qt_tool.mp4" type="video/mp4">
+                    您的浏览器不支持视频播放。
+                </video>
+            </div>
+        </section>
+
+        <!-- ... 后续内容保持不变 ... -->
+        <section class="project-section">
+            <h2>项目叙述</h2>
+            <p>在进行下水道缺陷研究时，我们需要对海量图片进行缺陷类别的判定。市面上现有的工具流程繁琐或功能不匹配，影响了数据处理效率。为了解决这一痛点，我独立设计并开发了这款专注于<strong>图像缺陷多分类</strong>的高效标注工具。</p>
+            <p>该工具的核心功能是：快速浏览图片，并为每张图片指定一个或多个缺陷类别（如“裂缝”、“破损”、“错位”等）。直观的界面和简化的操作流程，将数据集中存在的缺陷图片有效的进行了相应标注，为后续的模型训练、数据集制作等节省了大量宝贵时间。由于之前的开发时间有限，因此在实现基础功能之后并没有对其进行界面的美化。</p>
+        </section>
+
+        <section class="project-section">
+            <h2>Windows 版本体验</h2>
+            <div class="project-download-section">
+                <a href="static/downloads/A-Tool.zip" class="download-button" download>下载体验版 (.zip)</a>
+                <h3>操作详情</h3>
+                <ol class="instructions-list">
+                    <li>下载并解压 "A-Tool.zip" 文件。</li>
+                    <li>双击运行文件夹内的 "A-Tool.exe" 程序。</li>
+                    <li>首先选择一个位置存储标注后的.csv文件。</li>
+                    <li>点击左上角的“打开图片目录”按钮，选择存放图片的文件夹。</li>
+                    <li>使用鼠标在图片右侧的缺陷类别上点击标注当前图片缺陷。</li>
+                    <li>选择后的缺陷会跳转到左侧已标注一栏，若标注错误，在已标注一栏双击缺陷类别即可删除。</li>
+                    <li>最下面是一些常用功能模块，若想继续标注就可以直接点击相应按钮进行跳转，点击“保存并下一张”以继续，所有标注信息将自动保存。</li>
+                </ol>
+            </div>
+        </section>
+        <section class="project-section">
+            <h2>核心代码示例</h2>
+            <p>以下为窗口的主页面布局——C++ 代码，具体各个按钮的实现可以看github：</p>
+            <pre><code class="language-cpp">
+
+private:
+    void setupUI() {
+        // 设置主窗口
+        QWidget* centralWidget = new QWidget(this);
+        setCentralWidget(centralWidget);
+
+        // 保存路径选择对话框
+        savePath = QFileDialog::getSaveFileName(this, tr("选择保存路径"));
+        if (savePath.isEmpty()) {
+            QMessageBox::warning(this, tr("警告"), tr("未指定保存路径，程序即将退出"));
+            QApplication::quit();
+            return;
+        }
+
+        // 主布局
+        QVBoxLayout* mainLayout = new QVBoxLayout(centralWidget);
+
+        // 菜单栏
+        QMenuBar* menuBar = new QMenuBar(this);
+        setMenuBar(menuBar);
+        QMenu* fileMenu = menuBar->addMenu(tr("选择图片目录"));
+        QAction* loadAction = fileMenu->addAction(tr("加载图片"));
+        connect(loadAction, &QAction::triggered, this, &SimpleAnnotationTool::loadImages);
+
+        // 保存路径和图片路径显示
+        savePathLabel = new QLabel(tr("保存路径: %1").arg(savePath), this);
+        savePathLabel->setStyleSheet("font-size: 14px; color: blue; padding: 2px;");
+        mainLayout->addWidget(savePathLabel);
+
+        imageDirLabel = new QLabel(tr("图片目录: 未指定"), this);
+        imageDirLabel->setStyleSheet("font-size: 14px; color: green; padding: 2px;");
+        mainLayout->addWidget(imageDirLabel);
+
+        // 上半部分布局
+        QHBoxLayout* upperLayout = new QHBoxLayout;
+
+        // 标注列表
+        annotationList = new QListWidget(this);
+        annotationList->setFixedSize(150, 400);
+        connect(annotationList, &QListWidget::itemDoubleClicked)
+        upperLayout->addWidget(annotationList);
+
+        // 图片显示布局
+        QVBoxLayout* imageLayout = new QVBoxLayout;
+        imageStatusLabel = new QLabel(this);
+        imageStatusLabel->setAlignment(Qt::AlignCenter);
+        imageStatusLabel->setStyleSheet("font-size: 14px; color: gray; padding: 2px;");
+        imageStatusLabel->setFixedHeight(20);
+        imageLayout->addWidget(imageStatusLabel);
+
+        imageInfoLabel = new QLabel(this);
+        imageInfoLabel->setAlignment(Qt::AlignCenter);
+        imageInfoLabel->setStyleSheet("font-size: 16px; color: black; padding: 2px;");
+        imageInfoLabel->setFixedHeight(25);
+        imageLayout->addWidget(imageInfoLabel);
+
+        imageLabel = new QLabel(this);
+        imageLabel->setFixedSize(600, 400);
+        imageLabel->setStyleSheet("QLabel { background-color : lightgray; border: 1px solid black; }");
+        imageLayout->addWidget(imageLabel);
+
+        upperLayout->addLayout(imageLayout);
+
+        // 标签按钮区域
+        QHBoxLayout* labelButtonsLayout = createLabelButtonsLayout(); // 创建两列布局
+        upperLayout->addLayout(labelButtonsLayout);
+
+        mainLayout->addLayout(upperLayout);
+
+        // 跳转按钮
+        QPushButton* jumpButton = new QPushButton(tr("跳转到最后标注图片"), this);
+        connect(jumpButton, &QPushButton::clicked, this, &SimpleAnnotationTool::jumpToLastMarkedImage);
+        mainLayout->addWidget(jumpButton);
+
+        // 底部按钮布局
+        QHBoxLayout* bottomButtonLayout = new QHBoxLayout;
+        bottomButtonLayout->addStretch();
+
+        prevButton = new QPushButton(tr("查看上一张"), this);
+        prevButton->setFixedSize(100, 40);
+        prevButton->setEnabled(false);
+        connect(prevButton, &QPushButton::clicked, this, &SimpleAnnotationTool::previousImage);
+        bottomButtonLayout->addWidget(prevButton);
+
+        QPushButton* saveAndPrevButton = new QPushButton(tr("保存并上一张"), this);
+        saveAndPrevButton->setFixedSize(150, 40);
+        saveAndPrevButton->setStyleSheet("QPushButton { background-color: red; color: white; }");
+        connect(saveAndPrevButton, &QPushButton::clicked, this, [this]() {
+            saveAnnotations();
+            previousImage();
+        });
+        bottomButtonLayout->addWidget(saveAndPrevButton);
+
+        QPushButton* saveAndNextButton = new QPushButton(tr("保存并下一张"), this);
+        saveAndNextButton->setFixedSize(150, 40);
+        saveAndNextButton->setStyleSheet("QPushButton { background-color: red; color: white; }");
+        connect(saveAndNextButton, &QPushButton::clicked, this, [this]() {
+            saveAnnotations();
+            nextImage();
+        });
+        bottomButtonLayout->addWidget(saveAndNextButton);
+
+        nextButton = new QPushButton(tr("查看下一张"), this);
+        nextButton->setFixedSize(100, 40);
+        nextButton->setEnabled(false);
+        connect(nextButton, &QPushButton::clicked, this, &SimpleAnnotationTool::nextImage);
+        bottomButtonLayout->addWidget(nextButton);
+
+        bottomButtonLayout->addStretch();
+        mainLayout->addLayout(bottomButtonLayout);
+    }
+
+    // 创建标签按钮布局（两列）
+    QHBoxLayout* createLabelButtonsLayout() {
+        QHBoxLayout* labelButtonsLayout = new QHBoxLayout; // 水平布局，包含两列
+        QVBoxLayout* leftColumnLayout = new QVBoxLayout;  // 左列布局
+        QVBoxLayout* rightColumnLayout = new QVBoxLayout; // 右列布局
+
+        for (int i = 0; i < allLabels.size(); ++i) {
+            QPushButton* button = new QPushButton(allLabels[i], this);
+            button->setFixedSize(150, 40);
+            button->setEnabled(false);
+            connect(button, &QPushButton::clicked, this, [=]() { annotate(allLabels[i]); });
+
+            if (i < 8) {
+                leftColumnLayout->addWidget(button);  // 添加到左列
+            } else {
+                rightColumnLayout->addWidget(button); // 添加到右列
+            }
+
+            annotationButtons.append(button); // 记录按钮到列表
+        }
+
+        // 添加左右列到水平布局
+        labelButtonsLayout->addLayout(leftColumnLayout);
+        labelButtonsLayout->addLayout(rightColumnLayout);
+
+        return labelButtonsLayout;
+    }
+
+    // 启用或禁用标注按钮
+    void enableAnnotationButtons(bool enable) {
+        for (QPushButton* button : annotationButtons) {
+            button->setEnabled(enable);
+        }
+    }
+
+            </code></pre>
+        </section>
+
+    </main>
+
+    <!-- Highlight.js 样式与脚本 -->
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github-dark.min.css">
+    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+    <script>hljs.highlightAll();</script>
+</body>
+</html>

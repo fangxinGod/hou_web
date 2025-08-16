@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>项目详情 - 缺陷检测模型优化</title>
+    <link rel="stylesheet" href="static/css/style.css">
+    
+    <!-- 
+      =============================================
+      *****    核心修改：替换成新的CSS文件    *****
+      =============================================
+    -->
+    <link rel="stylesheet" href="static/css/model-optimization.css">
+
+</head>
+<body>
+    <main class="project-page-container">
+        <a href="index.html" class="back-link">← 返回项目列表</a>
+        
+        <header class="project-header">
+            <h1>缺陷检测模型优化</h1>
+            <div class="tech-stack">
+                <span class="tech-tag">PyTorch</span>
+                <span class="tech-tag">CNN</span>
+                <span class="tech-tag">Transformer</span>
+                <span class="tech-tag">CLIP</span>
+                <span class="tech-tag">多尺度学习</span>
+            </div>
+        </header>
+
+        <section class="project-section">
+            <h2>优化目标</h2>
+            <p>在有限的标注数据下，提升现有Sewer-ML、MAQ2L等下水道缺陷检测模型的准确率（特别是召回率），并尽可能保持较高的推理速度。</p>
+        </section>
+
+        <section class="project-section">
+            <h2>核心优化策略</h2>
+            <div class="key-strategies">
+                <div class="strategy-card">
+                    <h4>多尺度特征融合</h4>
+                    <p>将传统的单尺度卷积替换为多尺度感受野模块，使用特征金字塔FPN进行不同尺度的特征提取，增强模型对不同大小缺陷的识别能力。</p>
+                </div>
+                <div class="strategy-card">
+                    <h4>视觉-语言语义增强</h4>
+                    <p>引入CLIP模型的先验知识，通过文本提示（如“裂缝”）增强模型对特定缺陷类别的语义理解。</p>
+                </div>
+                <div class="strategy-card">
+                    <h4>轻量级记忆模块</h4>
+                    <p>增加一个小型记忆模块——Memory-Unit，使得模型在关联相关类别信息的同时，还会对一些视频抽取出的序列进行上下文信息的关联，这个自学习内存单元模块的设计，也为后续的模型推理更好的创造了条件。</p>
+                </div>
+            </div>
+            <h2>优化前后对比</h2>
+            <div class="comparison-container">
+                <div class="comparison-item">
+                    <h4>优化前</h4>
+                    <img src="static/images/before.png" alt="优化前检测效果">
+                </div>
+                <div class="comparison-item">
+                    <h4>优化后</h4>
+                    <img src="static/images/after.png" alt="优化后检测效果">
+                </div>
+            </div>
+        </section>
+
+        <section class="project-section">
+            <h2>性能提升 (对比基线模型)</h2>
+            <div class="performance-table">
+                <div class="table-row header">
+                    <div>指标</div>
+                    <div>提升</div>
+                </div>
+                <div class="table-row">
+                    <div>F1 分数</div>
+                    <div><span class="highlight">+1.96%</span> (89.72% → 91.68%)</div>
+                </div>
+                <div class="table-row">
+                    <div>F2 分数</div>
+                    <div><span class="highlight">+6.07%</span> (62.38% → 68.45%)</div>
+                </div>
+                 <div class="table-row">
+                    <div>推理速度</div>
+                    <div><span class="highlight">+25%</span></div>
+                </div>
+                <div class="table-row">
+                    <div>数据效率</div>
+                    <div>仅使用原数据集的 <span class="highlight">1/16</span> 数据量达到满足项目报告的性能</div>
+                </div>
+            </div>
+        </section>
+        <!-- 代码展示区 -->
+        <section class="project-section">
+            <h2>核心修改代码</h2>
+            <p>以下代码展示了多尺度特征融合 + 轻量级记忆模块的核心实现部分：</p>
+            <pre><code class="language-python">
+        class MultiScaleMemoryNet(nn.Module):
+            def __init__(self, backbone, memory_size=128):
+                super().__init__()
+                self.backbone = backbone
+                self.memory = nn.Parameter(torch.randn(memory_size, 256))  # Memory-Unit
+                self.fpn = FeaturePyramidNetwork(
+                    in_channels_list=[256, 512, 1024],
+                    out_channels=256
+                )
+
+            def forward(self, x):
+                feats = self.backbone(x)              # 多尺度特征提取
+                feats = self.fpn(feats)               # FPN 融合
+                memory_context = torch.matmul(
+                    feats[0].flatten(2), self.memory.t()
+                )                                     # 关联记忆模块
+                return feats, memory_context
+            </code></pre>
+        </section>
+    </main>
+    <!-- Highlight.js 样式与脚本 -->
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github-dark.min.css">
+    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+    <script>hljs.highlightAll();</script>
+</body>
+</html>

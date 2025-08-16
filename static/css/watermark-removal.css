@@ -1,0 +1,148 @@
+/* watermark-removal.css (最终版：点击放大) */
+
+/* --- 基础容器和通用样式 (保持不变) --- */
+body {
+    background-color: var(--light-bg);
+}
+.project-page-container {
+    max-width: 900px; margin: 2rem auto; padding: 2rem; background: #fff; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+}
+.back-link {
+    display: inline-block; margin-bottom: 2rem; color: var(--primary-color); text-decoration: none; font-weight: bold; font-size: 1.1rem; transition: color 0.3s;
+}
+.back-link:hover {
+    color: var(--secondary-color);
+}
+.project-header {
+    /* 1. 移除深色背景，使其与页面主体背景(白色)一致 */
+    background-color: transparent; 
+
+    /* 2. 确保内容居中，并添加底部边框作为分隔线 */
+    text-align: center;
+    padding: 2rem 0; /* 增加上下内边距，留出呼吸空间 */
+    margin-bottom: 2.5rem; /* 与下方内容的间距 */
+    border-bottom: 1px solid #e0e0e0; /* 添加浅灰色下边框，参考图样式 */
+    
+    /* 3. 保持之前取消悬浮的设置 */
+    position: static; 
+}
+
+/* 4. 设置标题样式：大号、深色 */
+.project-header h1 {
+    font-size: 2.8rem;
+    color: var(--primary-color); /* 使用您的主题主色 */
+    margin-bottom: 1.5rem; /* 标题和技术栈之间的距离 */
+}
+
+/* 5. 确保技术栈容器布局正确 */
+.project-header .tech-stack {
+    justify-content: center; /* 使标签在容器内居中 */
+    margin-bottom: 1.5rem; /* 技术栈和简介之间的距离 */
+}
+
+/* 6. 设置项目简介段落的样式 */
+.project-intro-summary {
+    max-width: 700px; /* 限制简介文本宽度，易于阅读 */
+    margin: 0 auto; /* 水平居中 */
+    padding: 0;
+    border: none;
+    background-color: transparent;
+}
+
+.project-intro-summary p {
+    font-size: 1rem;
+    color: #666; /* 使用柔和的深灰色，而不是纯黑 */
+    line-height: 1.7;
+    margin: 0; /* 清除段落默认的外边距 */
+}
+.project-section {
+    margin-bottom: 3rem;
+}
+.project-section h2 {
+    font-size: 1.8rem; color: var(--primary-color); border-bottom: 2px solid var(--secondary-color); padding-bottom: 0.5rem; margin-bottom: 1.5rem; text-align: left;
+}
+.problem-list, .performance-table, .summary-text { /* 省略了这些不变的样式定义 */ }
+
+/* --- 新的左右并排对比样式 (大部分保持不变) --- */
+.comparison-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 3rem;
+    margin-top: 2rem;
+}
+.comparison-row {
+    display: flex;
+    gap: 1.5rem;
+    align-items: center;
+}
+.image-box {
+    flex: 1;
+    margin: 0;
+    position: relative;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.image-box img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 8px;
+    transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+.image-box figcaption {
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+    background: rgba(0, 0, 0, 0.6);
+    color: white;
+    padding: 0.4rem 0.8rem;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    z-index: 5;
+    transition: opacity 0.3s;
+}
+
+/*
+ * ==========================================================
+ * ***** 核心修改：这里是替换后的全新放大效果代码 *****
+ * ==========================================================
+ */
+
+/* 1. 为可以放大的元素设置基础样式 */
+.image-zoomable {
+    cursor: zoom-in; /* 鼠标变成放大镜样式，提示用户可以点击 */
+    outline: none;   /* 移除键盘聚焦时的默认蓝色边框 */
+}
+
+/* 2. 当元素被点击，拥有 .zoomed 类之后的样式 */
+.image-zoomable.zoomed {
+    z-index: 10;
+    transform: scale(1.05) translateY(-5px); 
+    box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+    cursor: zoom-out; /* 放大后，鼠标变成缩小镜样式 */
+}
+
+.image-zoomable.zoomed img {
+    transform: scale(2); /* 将图片放大2倍 */
+}
+
+.image-zoomable.zoomed figcaption {
+    opacity: 0; /* 放大时隐藏标题 */
+}
+
+/* 3. 保留一个轻微的悬停效果，给用户视觉反馈 (当它还没被放大时) */
+.image-zoomable:hover:not(.zoomed) {
+    transform: scale(1.02); /* 稍微变大一点点 */
+    box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+}
+
+
+/* --- 响应式设计 (保持不变) --- */
+@media (max-width: 600px) {
+    .comparison-row {
+        flex-direction: column;
+    }
+}

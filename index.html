@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>小猴de</title>
+    <link rel="icon" href="favicon.ico">
+    <link rel="stylesheet" href="static/css/style.css">
+</head>
+<body>
+    <header>
+        <h1>小猴的个人主页</h1>
+        <nav>
+            <ul>
+                <li><a href="#projects">项目</a></li>
+                <li><a href="#about">关于我</a></li>
+                <li><a href="#contact">联系方式</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section id="projects">
+            <h2>项目</h2>
+            <div class="projects-container" id="projects-container">
+                <!-- 项目将通过JavaScript动态加载 -->
+            </div>
+        </section>
+
+        <section id="about">
+            <h2>关于我</h2>
+            <!-- 新增实习经历模块 -->
+            <div class="internship-section">
+                <h3>实习经历</h3>
+                <div class="internship-cards">
+                    <!-- 实习1 -->
+                    <div class="internship-card" data-aos="fade-up">
+                        <h4>银河航天（北京）科技有限公司 - 项目管理实习生</h4>
+                        <p class="internship-summary">负责会议纪要整理，统计相关卫星项目进度并及时开会统一进度，文件调度等。</p>
+                        <div class="internship-detail">
+                            <p>负责整理会议纪要，准确记录并及时分发会议内容；统计和跟踪各卫星项目进度，协调召开进度会议统一安排；管理项目相关文件的收集、归档与调度，保障信息流通和项目有序推进</p>
+                            <p>协助撰写分析报告并主持参与与其他合作航天企业的重大会议。</p>
+                        </div>
+                    </div>
+                    <!-- 实习2 -->
+                    <div class="internship-card" data-aos="fade-up" data-aos-delay="100">
+                        <h4>上海品见智能科技有限公司 - 算法实习生（计算机视觉）</h4>
+                        <p class="internship-summary">参与实际上海卷烟厂业务，进行相关烟盒的图像识别算法优化。</p>
+                        <div class="internship-detail">
+                            <p>参与上海卷烟厂烟盒图像识别算法优化，主要针对烟盒缺陷细微多样和实时性要求高等挑战，通过改进数据采集与预处理、构建高质量标注数据、优化模型结构（如多尺度特征和注意力机制）、采用轻量化网络及加速推理等手段，有效提升了缺陷检测的准确率和系统的实时性，满足生产流水线的自动化质量检测需求。</p>
+                            <p>参与写接口供线上系统进行调用，编写自动化测试脚本并部署到线上监控系统。</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 调整顺序：先放兴趣爱好 -->
+            <div class="interests-section">
+                <h3>兴趣爱好</h3>
+                <div class="interest-categories">
+                    <div class="interest-card" data-aos="fade-up">
+                        <img src="static/images/sports.jpg" alt="1">
+                        <h4>跑步</h4>
+                        <p>喜欢跑步等有氧运动，这是24年开始跑步的记录。</p>
+                    </div>
+                    <div class="interest-card" data-aos="fade-up" data-aos-delay="100">
+                        <img src="static/images/reading.jpg" alt="2">
+                        <h4>读书</h4>
+                        <p>喜欢读文学作品，这是参加的蔡崇达老师的阅读分享会。</p>
+                    </div>
+                    <div class="interest-card" data-aos="fade-up" data-aos-delay="200">
+                        <img src="static/images/movies.jpg" alt="3">
+                        <h4>电影</h4>
+                        <p>喜欢看电影，剧情类，科幻类看的比较多，这是最近看的一部。</p>
+                    </div>
+                    <div class="interest-card" data-aos="fade-up" data-aos-delay="300">
+                        <img src="static/images/travel.jpg" alt="4">
+                        <h4>旅游</h4>
+                        <p>喜欢看山看水，这是去年爬长白山时拍下的照片。</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 后放简历 -->
+            <div class="resume-section">
+                <h3>我的简历</h3>
+                <div class="resume-thumbnail" id="resume-thumbnail" title="点击查看完整简历">
+                    <img src="static/images/resume-thumbnail.png" alt="5">
+                    <div class="resume-overlay">点击查看</div>
+                </div>
+            </div>
+            
+            <!-- 简历模态框 (Modal) -->
+            <div class="resume-modal" id="resume-modal">
+                <button class="close-btn" id="close-resume-btn">← 返回</button>
+                <embed src="static/resume.pdf" type="application/pdf" class="pdf-viewer">
+            </div>
+
+        </section>
+
+        <section id="contact">
+            <h2>联系方式</h2>
+            <p>如果对我感兴趣，欢迎通过以下方式联系我！</p>
+            <p><strong>邮箱:</strong> <a href="mailto:fangxinHou2001@163.com">fangxinHou2001@163.com</a></p>
+            <!-- 可以添加更多联系方式，如GitHub, LinkedIn等 -->
+        </section>
+    </main>
+
+    <footer>
+        <p>© 2025 小猴的个人主页</p>
+    </footer>
+
+    <!-- 引入项目数据和主页脚本 -->
+    <script src="static/js/projects-data.js"></script>
+    <script src="static/js/script.js"></script>
+    
+</body>
+</html>

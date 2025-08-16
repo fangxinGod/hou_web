@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>项目详情</title>
+    <link rel="stylesheet" href="static/css/style.css">
+    <!-- 为详情页添加特定样式 -->
+    <style>
+        .project-detail-container {
+            max-width: 900px;
+            margin: 2rem auto;
+            padding: 2rem;
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+        }
+        .project-detail-container h2 {
+            margin-bottom: 1rem;
+            text-align: left;
+        }
+        .project-detail-container .tech-stack {
+            margin-bottom: 2rem;
+        }
+        .project-detail-container h4 {
+            font-size: 1.5rem;
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+            color: var(--primary-color);
+            border-bottom: 2px solid var(--secondary-color);
+            padding-bottom: 0.5rem;
+        }
+        .project-detail-container ul {
+            list-style-position: inside;
+            padding-left: 1rem;
+        }
+        .project-detail-container li {
+            margin-bottom: 0.5rem;
+        }
+        .back-link {
+            display: inline-block;
+            margin-bottom: 2rem;
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+        .back-link:hover {
+            color: var(--secondary-color);
+        }
+        .project-links a {
+            margin-right: 1rem;
+            color: var(--secondary-color);
+        }
+    </style>
+</head>
+<body>
+    <main>
+        <a href="index.html" class="back-link">← 返回项目列表</a>
+        <div id="project-detail-container" class="project-detail-container">
+            <!-- 项目详情将通过JavaScript动态加载 -->
+            <p>正在加载项目详情...</p>
+        </div>
+    </main>
+
+    <!-- 同样需要引入数据和脚本 -->
+    <script src="static/js/projects-data.js"></script>
+    <script src="static/js/project-detail.js"></script>
+</body>
+</html>

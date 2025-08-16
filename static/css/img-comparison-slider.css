@@ -1,0 +1,36 @@
+/* projects/watermark-removal.css */
+
+/* ... (您已有的所有样式) ... */
+
+/* ***** 为滑块对比新增的样式 ***** */
+
+.slider-showcase {
+    display: grid;
+    grid-template-columns: 1fr; /* 默认单列 */
+    gap: 2.5rem; /* 滑块之间的垂直间距 */
+    margin-top: 2rem;
+}
+
+/* 美化滑块本身 */
+img-comparison-slider {
+    width: 100%;
+    max-width: 800px; /* 限制最大宽度，避免在超宽屏上拉伸过度 */
+    margin: 0 auto; /* 水平居中 */
+    border-radius: 12px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+    outline: 2px solid white; /* 添加一个白色轮廓，使其与背景分离 */
+    outline-offset: -2px;
+}
+
+/* 自定义标签样式 */
+.slider-with-labels::before,
+.slider-with-labels::after {
+    background-color: rgba(0, 0, 0, 0.6);
+    color: white;
+    font-size: 0.9rem;
+    font-weight: bold;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+}
